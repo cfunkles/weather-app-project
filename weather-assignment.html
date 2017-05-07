@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Colorado Weather Site</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script
+		src="https://code.jquery.com/jquery-3.1.1.js"
+		integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+		crossorigin="anonymous"
+	></script>
+	<style type="text/css">
+		body {
+			color: steelblue;
+			background: linear-gradient(dodgerblue, blue);/*might not work in other web browsers */
+		}
+		header {
+			color: purple;
+			background: linear-gradient(to right, skyblue, royalblue);
+			height: 65px;
+			margin: 10px 0;
+			padding-top: 10px;
+		}
+		h1 {
+			margin: 0;
+		}
+		p {/* styles the appended elements from jQUERY */
+			font-size: 25px;
+			margin: 0;
+		}
+		.well {
+			background-color: lavenderblush;
+		}
+		img {
+			border-radius: 50%;
+			width: 220px;
+			height: 200px;
+		}
+		small {
+			margin: 0;
+			padding: 0;
+			font-size: 10px;
+		}
+	</style>
+
+
+
+	<!-- 
+	WEATHER ASSIGNMENT:
+	-
+	Your goal: Build a simple weather website using data from an api. 
+	-
+	Using jquery, build out the html and content of your page to display the weather data from at least one location (there are ten in the API) but feel free to go wild and do the rest. 
+	-
+	here is the link to the api: 
+	http://api.geonames.org/weatherJSON?north=41&south=39&east=-104&west=-106&username=ertyseidohl
+	-
+	The beginnings of this code are located below:
+	-
+	 -->
+
+
+
+</head>
+<body>
+	<div class="container">
+		<header class="row">
+			<h1 class="col-xs-8">Real Colorado Weather!</h1>
+			<button  class="btn btn-secondary btn-lg col-xs-2">Refresh Weather</button>
+		</header>
+		<section>
+			<div><!--the block to enclude all weather data for berthoud pass -->
+				<div class="well" id="berthoud">
+					<h2 class="col-xs-6">@ Berthoud Pass</h2>
+					<img src="http://coloradoguy.com/berthoud-pass1.jpg" alt="berthoud-pass-sign" class="col-xs-6">
+				</div><!--the block to enclude all weather data for Boulder muni -->
+				<div class="well" id="boulder">
+					<h2 class="col-xs-6">@ Boulder Municipal Airport</h2>
+					<img src="http://cdn2.hubspot.net/hub/35956/file-13818866-jpg/images/boulder_municipal_airport_stone_sign-resized-600.jpg" alt="boulder-muni" class="col-xs-6">
+				</div><!--the block to enclude all weather data for erie -->
+				<div class="well" id="erie">
+					<h2 class="col-xs-6">@ Erie</h2>
+					<img src="https://www.esrl.noaa.gov/csd/groups/csd3/images/erietower2012.jpg" alt="" class="col-xs-6">
+				</div><!--the block to enclude all weather data for longmont-->
+				<div class="well" id="longmont">
+					<h2 class="col-xs-6">@ Longmont</h2>
+					<img src="https://i2.wp.com/www.denverpost.com/wp-content/uploads/2017/02/20130509_weather_272.jpg?w=620&crop=0%2C0px%2C100%2C9999px" alt="" class="col-xs-6">
+				</div>
+				<div class="well" id="denver"><!--the block to enclude all weather data for denver -->
+					<h2 class="col-xs-6">@ Denver Nexrad</h2>
+					<img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/LabNexrad.jpg" alt="" class="col-xs-6">
+				</div><!--the block to enclude all weather data for where ever this is -->
+				<div class="well" id="elbert">
+					<h2 class="col-xs-6">@ Elbert Mountain, Monument Pass</h2>
+					<img src="https://khms1.googleapis.com/kh?v=722&hl=en&&x=3429&y=6248&z=14" alt="" class="col-xs-6">
+				</div><!--the block to enclude all weather data for greeley -->
+				<div class="well" id="greeley">
+					<h2 class="col-xs-6">@ Greeley</h2>
+					<img src="http://greeleygov.com/images/default-source/site-design/highway-34-entrance.jpg?sfvrsn=ae8cc58a_4" alt="" class="col-xs-6">
+				</div><!--the block to enclude all weather data for wilkerson pass -->
+				<div class="well" id="wilkerson">
+					<h2 class="col-xs-6">@ Wilkerson Pass</h2>
+					<img src="http://www.outtherecolorado.com/wp-content/uploads/2016/08/Wilkerson-Pass-Overlook-SnoShuu-OutThere-Colorado.jpg" alt="" class="col-xs-6">
+				</div><!--the block to enclude all weather data for centenial airport -->
+				<div class="well" id="centenial">
+					<h2 class="col-xs-6">@ Centenial Airport</h2>
+					<img src="http://media.thedenverchannel.com/photo/2014/07/07/Centennial_Airport_1404754881653_6709065_ver1.0_640_480.jpg" alt="" class="col-xs-6">
+				</div><!--the block to enclude all weather data for DIA -->
+				<div class="well" id="dia">
+					<h2 class="col-xs-6">@ Denver International Airport</h2>
+					<img src="http://www.airlinereporter.com/wp-content/uploads/2013/09/upper-view.jpg" alt="" class="col-xs-6">
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<script>
+		$(document).ready(function(){
+			console.log('document loaded');
+			$.get('http://api.geonames.org/weatherJSON?north=41&south=39&east=-104&west=-106&username=ertyseidohl', function(res){
+					//function that inserts index number to return celcius data
+					function putInIndex(indexNum) {
+						var data = res.weatherObservations[indexNum].temperature;
+						return data;
+					}
+					//function that converts the celcius data from above into fahrenhet
+					function toFahrenhet(indexNum) {
+						var Fahrenhet = Math.round(putInIndex(indexNum) * (9/5) + 32);
+						return Fahrenhet;
+					}
+					//function checks cloud data to see if it is n/a and changes text to nobody knows
+					function checkNA(data, type) {
+						if (data === 'n/a') {
+							return 'not gonna tell you what kind of ' + type; 
+						} else {
+							return data;
+						}
+					}
+				//puts a string in a paragraph tag at bottom of element with named id inputing the temperature in fahrenhet and cloud data
+				$('#berthoud').append('<p>The temperature is ' + toFahrenhet(0) + '&#8457; with ' + checkNA(res.weatherObservations[0].clouds, 'clouds') + '</p>');
+				$('#boulder').append('<p>The temperature is ' + toFahrenhet(1) + '&#8457; with ' + checkNA(res.weatherObservations[1].clouds, 'clouds') + '</p>');
+				$('#erie').append('<p>The temperature is ' + toFahrenhet(2) + '&#8457; with ' + checkNA(res.weatherObservations[2].clouds, 'clouds') + '</p>');
+				$('#longmont').append('<p>The temperature is ' + toFahrenhet(3) + '&#8457; with ' + checkNA(res.weatherObservations[3].clouds, 'clouds') + '</p>');
+				$('#denver').append('<p>The temperature is ' + toFahrenhet(4) + '&#8457; with ' + checkNA(res.weatherObservations[4].clouds, 'clouds') + '</p>');
+				$('#elbert').append('<p>The temperature is ' + toFahrenhet(5) + '&#8457; with ' + checkNA(res.weatherObservations[5].clouds, 'clouds') + '</p>');
+				$('#greeley').append('<p>The temperature is ' + toFahrenhet(6) + '&#8457; with ' + checkNA(res.weatherObservations[6].clouds, 'clouds') + '</p>');
+				$('#wilkerson').append('<p>The temperature is ' + toFahrenhet(7) + '&#8457; with ' + checkNA(res.weatherObservations[7].clouds, 'clouds') + '</p>');
+				$('#centenial').append('<p>The temperature is ' + toFahrenhet(8) + '&#8457; with ' + checkNA(res.weatherObservations[8].clouds, 'clouds') + '</p>');
+				$('#dia').append('<p>The temperature is ' + toFahrenhet(9) + '&#8457; with ' + checkNA(res.weatherObservations[9].clouds, 'clouds') + '</p>');
+				//puts the time data at the beginning of the div element with labeled ids.
+				$('#berthoud').prepend('<p><small>Weather as of ' + res.weatherObservations[0].datetime + '</small></p>');
+				$('#boulder').prepend('<p><small>Weather as of ' + res.weatherObservations[1].datetime + '</small></p>');
+				$('#erie').prepend('<p><small>Weather as of ' + res.weatherObservations[2].datetime + '</small></p>');
+				$('#longmont').prepend('<p><small>Weather as of ' + res.weatherObservations[3].datetime + '</small></p>');
+				$('#denver').prepend('<p><small>Weather as of ' + res.weatherObservations[4].datetime + '</small></p>');
+				$('#elbert').prepend('<p><small>Weather as of ' + res.weatherObservations[5].datetime + '</small></p>');
+				$('#greeley').prepend('<p><small>Weather as of ' + res.weatherObservations[6].datetime + '</small></p>');
+				$('#wilkerson').prepend('<p><small>Weather as of ' + res.weatherObservations[7].datetime + '</small></p>');
+				$('#centenial').prepend('<p><small>Weather as of ' + res.weatherObservations[8].datetime + '</small></p>');
+				$('#dia').prepend('<p><small>Weather as of ' + res.weatherObservations[9].datetime + '</small></p>');
+				//refreshes the weather data from the sever to the web page.
+				$('button').click(function() {
+						location.reload(true);
+				});
+			});
+		});
+	</script>
+</body>
+</html>
